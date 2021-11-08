@@ -21,15 +21,16 @@ with sqlite3.connect(db_path) as conn:
         weight = weight/150
         x.append(np.array([height, weight]))
         y.append(type_no)
-
+#モデルの読み込み
 model = load_model('hw_model.h5')
 
 if os.path.exists('hw_weights.h5'):
     model.load_weights('hw_weights.h5')
 
 nb_classes = 6
+#one-hot化
 y = to_categorical(y, nb_classes)
-
+#モデル学習
 model.fit(np.array(x), y, batch_size=50, epochs=200)
 
 model.save_weights('hw_weights.h5')
